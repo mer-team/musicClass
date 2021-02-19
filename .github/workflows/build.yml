@@ -1,0 +1,38 @@
+name: musicClass Python CI/CD
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+
+    env:
+      MQHOST: localhost
+      MQUSER: merUser
+      MQPASS: passwordMER
+      MQPORT: 5672
+      MNG_PORT: 15672
+
+    steps:
+    - name: Setup RabbitMQ Image
+      uses: mer-team/rabbitmq-mng-action@v1.2
+      with:
+        RABBITMQ_USER: $MQUSER
+        RABBITMQ_PASS: $MQPASS
+        RABBITMQ_PORT: $MQPORT
+        RABBITMQ_MNG_PORT: $MNG_PORT
+        RABBITMQ_TAG: '3-management-alpine'
+
+    - name: Checkout musicClass Project
+      uses: actions/checkout@v2
+
+    - name: Build Local musicClass Docker Image
+      run: docker build -t vidextractor:latest .
+
+    - name: Dump docker logs on failure
+      if: failure()
+      uses: jwalton/gh-docker-logs@v1
