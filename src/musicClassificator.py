@@ -7,10 +7,11 @@ import os
 mquser = os.environ.get('USER')
 mqpass = os.environ.get('PASS')
 mqport = os.environ.get('PORT')
+mqhost = os.environ.get('HOST')
 apiurl = os.environ.get('API_URL')
 
 credentials =  pika.PlainCredentials(mquser, mqpass)
-connection = pika.BlockingConnection(pika.ConnectionParameters('rabbit', mqport,'/',credentials))
+connection = pika.BlockingConnection(pika.ConnectionParameters(mqhost, mqport,'/',credentials))
 
 channel = connection.channel()
 channel.queue_declare(queue='classifyMusic')
