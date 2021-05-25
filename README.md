@@ -24,12 +24,12 @@ docker run -d -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest -p 1
 
 Build local `musicClass` image from source
 ```
-docker build -t musicclasslocal:latest .
+docker build -t musicclass:local .
 ```
 
 Run local `musicClass` image
 ```
-docker run -it --rm -e TIME=10 -e PORT=5672 -e PASS=guest -e USER=guest -e HOST=localhost -e MNG_PORT=15672 --net=host musicclasslocal:latest
+docker run -it --rm -e TIME=10 -e PORT=5672 -e PASS=guest -e USER=guest -e HOST=localhost -e MNG_PORT=15672 --net=host musicclass:local
 ```
 
 Run official `musicClass` image
